@@ -3,7 +3,7 @@ import { type NextRequest } from "next/server";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import { createMessages } from "./create-messages";
+// import { createMessages } from "./create-messages";
 
 import { revalidatePath } from "next/cache";
 import { revalidateTag } from "next/cache";
@@ -18,11 +18,17 @@ type Message = {
   content: any;
 };
 
+// {
+//   role: "system",
+//   content:
+//     "return the text from the image in the following format exactly, nothing else: {text: 'text from image'}",
+// },
+
 const initialProgrammerMessages: Message[] = [
   {
     role: "system",
     content:
-      "please return the text from the image",
+      "return the text from the image",
   },
   {
     role: "user",

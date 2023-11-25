@@ -87,7 +87,9 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
         method: "POST",
         body: body,
       });
-      console.log("RES: "+res)
+      // if (res.ok) {
+        const completionResult = await res.text();
+        console.log("Completion Result:", completionResult);
   
       if (!res.ok || res.body === null) {
         throw new Error(res.statusText);
@@ -101,7 +103,7 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
 
       setStatusMessage("Posting post...")
 
-      content = content + " " + res
+      content = content + " " + completionResult
 
       await createPost({
         content,
