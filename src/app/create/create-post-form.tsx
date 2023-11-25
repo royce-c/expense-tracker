@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge"
 import { createPost, getSignedURL } from "./actions"
 
 export default function CreatePostForm({ user }: { user: { name?: string | null; image?: string | null } }) {
-  const [content, setContent] = useState("")
+  let [content, setContent] = useState("")
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -41,15 +41,58 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
       },
       body: file,
     })
-
+    
     const fileUrl = url.split("?")[0]
     return fileId
   }
+
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     try {
+
+      let body = "";
+      let value = "Return the text content of the image";
+      if (file) {
+        const base64 = await convertFileToBase64(file);
+  
+        const contentForAI = [
+          {
+            type: "text",
+            text: value,
+          },
+          {
+            type: "image_url",
+            image_url: {
+              url: base64,
+            },
+          },
+        ];
+        body = JSON.stringify({ content: contentForAI });
+      } else {
+        body = JSON.stringify({ content: value });
+      }
+  
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        body: body,
+      });
+      console.log("RES: "+res)
+  
+      if (!res.ok || res.body === null) {
+        throw new Error(res.statusText);
+      }
+
       let fileId: number | undefined = undefined
       if (file) {
         setStatusMessage("Uploading...")
@@ -57,6 +100,8 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
       }
 
       setStatusMessage("Posting post...")
+
+      content = content + " " + res
 
       await createPost({
         content,

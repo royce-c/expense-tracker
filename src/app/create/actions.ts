@@ -79,7 +79,7 @@ const allowedFileTypes = [
   "image/png",
 ]
 
-const maxFileSize = 1048576 * 10 // 1 MB
+const maxFileSize = 1048576 * 10 // 1 MB/home/r/Documents/FSWD3/Frameworks/openai/src/lib/utils.ts
 
 const generateFileName = (bytes = 32) => crypto.randomBytes(bytes).toString("hex")
 
