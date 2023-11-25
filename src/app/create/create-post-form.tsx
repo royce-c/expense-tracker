@@ -1,50 +1,56 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { useState } from "react"
-import { twMerge } from "tailwind-merge"
+import Image from "next/image";
+import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
-import { createPost, getSignedURL } from "./actions"
+import { createPost, getSignedURL } from "./actions";
 
-export default function CreatePostForm({ user }: { user: { name?: string | null; image?: string | null } }) {
-  let [content, setContent] = useState("")
-  const [file, setFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+export default function CreatePostForm({
+  user,
+}: {
+  user: { name?: string | null; image?: string | null };
+}) {
+  let [content, setContent] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const [statusMessage, setStatusMessage] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [statusMessage, setStatusMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const buttonDisabled = content.length < 1 || loading
+  const buttonDisabled = content.length < 1 || loading;
 
   const computeSHA256 = async (file: File) => {
-    const buffer = await file.arrayBuffer()
-    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("")
-    return hashHex
-  }
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  };
 
   const handleFileUpload = async (file: File) => {
     const signedURLResult = await getSignedURL({
       fileSize: file.size,
       fileType: file.type,
       checksum: await computeSHA256(file),
-    })
+    });
     if (signedURLResult.failure !== undefined) {
-      throw new Error(signedURLResult.failure)
+      throw new Error(signedURLResult.failure);
     }
-    const { url, id: fileId } = signedURLResult.success
+    const { url, id: fileId } = signedURLResult.success;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": file.type,
       },
       body: file,
-    })
-    
-    const fileUrl = url.split("?")[0]
-    return fileId
-  }
+    });
+
+    const fileUrl = url.split("?")[0];
+    return fileId;
+  };
 
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -55,17 +61,15 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
     });
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-
       let body = "";
       let value = "Return the text content of the image";
       if (file) {
         const base64 = await convertFileToBase64(file);
-  
+
         const contentForAI = [
           {
             type: "text",
@@ -82,60 +86,62 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
       } else {
         body = JSON.stringify({ content: value });
       }
-  
+
       const res = await fetch("/api/messages", {
         method: "POST",
         body: body,
       });
-      // if (res.ok) {
-        const completionResult = await res.text();
-        console.log("Completion Result:", completionResult);
-  
+      const completionResult = await res.text();
+      console.log("Completion Result:", completionResult);
+
       if (!res.ok || res.body === null) {
         throw new Error(res.statusText);
       }
 
-      let fileId: number | undefined = undefined
+      let fileId: number | undefined = undefined;
       if (file) {
-        setStatusMessage("Uploading...")
-        fileId = await handleFileUpload(file)
+        setStatusMessage("Uploading...");
+        fileId = await handleFileUpload(file);
       }
 
-      setStatusMessage("Posting post...")
+      setStatusMessage("Posting post...");
 
-      content = content + " " + completionResult
+      content = content + completionResult;
 
       await createPost({
         content,
         fileId: fileId,
-      })
+      });
 
-      setStatusMessage("Post Successful")
+      setStatusMessage("Post Successful");
     } catch (error) {
-      console.error(error)
-      setStatusMessage("Post failed")
+      console.error(error);
+      setStatusMessage("Post failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null
-    setFile(file)
+    const file = e.target.files?.[0] ?? null;
+    setFile(file);
     if (previewUrl) {
-      URL.revokeObjectURL(previewUrl)
+      URL.revokeObjectURL(previewUrl);
     }
     if (file) {
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
     } else {
-      setPreviewUrl(null)
+      setPreviewUrl(null);
     }
-  }
+  };
 
   return (
     <>
-      <form className="border border-neutral-500 rounded-lg px-6 py-4" onSubmit={handleSubmit}>
+      <form
+        className="border border-neutral-500 rounded-lg px-6 py-4"
+        onSubmit={handleSubmit}
+      >
         {statusMessage && (
           <p className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 mb-4 rounded relative">
             {statusMessage}
@@ -217,5 +223,5 @@ export default function CreatePostForm({ user }: { user: { name?: string | null;
         </div>
       </form>
     </>
-  )
+  );
 }
