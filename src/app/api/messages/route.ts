@@ -17,11 +17,11 @@ type Message = {
 const initialProgrammerMessages: Message[] = [
   {
     role: "system",
-    content: "return the text from the image",
+    content: "You are an expert at reading receipts and invoices then returning the total cost. If the receipt is not readable, return 'Error'."
   },
   {
     role: "user",
-    content: "",
+    content: "Please read the receipt and return the total cost. Only return the total cost, no other text.",
   },
 ];
 
