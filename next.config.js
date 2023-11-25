@@ -7,6 +7,10 @@ const nextConfig = {
               protocol: "https",
               hostname: "avatars.githubusercontent.com",
             },
+            {
+              protocol: "https",
+              hostname: "jsframework.s3.ca-central-1.amazonaws.com",
+            },
           ],
     },
 
