@@ -35,7 +35,7 @@ export default function FeedPost({ post }: { post: Post }) {
   return (
     <article className="flex flex-col gap-4 py-4 relative">
       <div className="flex gap-4 items-start">
-        <Link href={`/${post.user.id}`}>
+        <Link href={`/profile`}>
           <div className="rounded-full h-10 w-10 overflow-hidden relative">
             <Image
               className="object-cover"
@@ -48,7 +48,7 @@ export default function FeedPost({ post }: { post: Post }) {
         </Link>
         <div className="flex flex-col gap-2 w-full">
           <div className="flex justify-between w-full">
-            <Link href={`/${post.user.id}`}>
+            <Link href={`/profile`}>
               <div>{post.user.name}</div>
             </Link>
             <p className="dark:text-neutral-400 text-neutral-600">{timeAgoShort(new Date(post.createdAt))}</p>

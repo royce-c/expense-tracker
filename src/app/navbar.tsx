@@ -29,7 +29,7 @@ export default async function NavBar({ className }: { className?: string }) {
         </svg>
       </Link> */}
       <Link
-        href={"/create"}
+        href={"/upload"}
         className="hover:bg-neutral-100 dark:hover:bg-neutral-900 flex justify-center items-center h-14 w-20 rounded-md transition-all fill-none stroke-neutral-600"
       >
         <svg className="w-7 h-7 stroke-2" aria-label="Create" viewBox="0 0 26 26" role="img">
@@ -48,7 +48,7 @@ export default async function NavBar({ className }: { className?: string }) {
         </svg>
       </Link> */}
       <Link
-        href="/me"
+        href="/profile"
         className="hover:bg-neutral-100 dark:hover:bg-neutral-900 flex justify-center items-center h-14 w-20 rounded-md transition-all fill-none stroke-neutral-600"
       >
         <svg className="w-7 h-7 stroke-2" aria-label="Profile" viewBox="0 0 26 26" role="img">
