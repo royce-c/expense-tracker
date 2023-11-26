@@ -4,6 +4,7 @@ import { type Post } from "@/db/queries/singlePost"
 import PostActions from "@/components/post-actions"
 
 import timeAgoShort from "@/utils/timeAgoShort"
+import formatPostContent from "@/utils/formatExpense"
 
 export default function SinglePost({ post }: { post: Post }) {
   function PostMedia() {
@@ -20,13 +21,13 @@ export default function SinglePost({ post }: { post: Post }) {
       )
     }
 
-    if (post.media.type === "video") {
-      return (
-        <Link href={post.media.url}>
-          <video className="object-contain max-w-full" src={post.media.url} controls />
-        </Link>
-      )
-    }
+    // if (post.media.type === "video") {
+    //   return (
+    //     <Link href={post.media.url}>
+    //       <video className="object-contain max-w-full" src={post.media.url} controls />
+    //     </Link>
+    //   )
+    // }
   }
 
   return (
@@ -54,7 +55,7 @@ export default function SinglePost({ post }: { post: Post }) {
       </div>
 
       <div className="flex flex-col gap-2 pb-2">
-        <p className="font-light">{post.content}</p>
+        <p className="font-light">{formatPostContent(post.content)}</p>
         <PostMedia />
         <PostActions
           onLike={async () => {

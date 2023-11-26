@@ -31,11 +31,11 @@ export default async function Home() {
 
 
   return (
-    <div className="flex flex-col divide-y" style={{ height: 3000 }}>
-      <div>Total Expenses: ${(totalExpenses / 100).toFixed(2)}</div>
+    <div className="flex flex-col divide-y p-4 " style={{ height: 3000 }}>
+      <div className="text-xl font-bold mb-4">Total Expenses: ${(totalExpenses / 100).toFixed(2)}</div>
       {posts.map((post) => (
         <FeedPost key={post.id} post={post} />
       ))}
     </div>
-  )
+  );
 }

@@ -4,6 +4,7 @@ import { type Post } from "@/db/queries/postsFeed"
 import PostActions from "@/components/post-actions"
 
 import timeAgoShort from "@/utils/timeAgoShort"
+import formatPostContent from "@/utils/formatExpense"
 
 import { likePost, commentPost, repostPost, sharePost, deletePost } from "./actions"
 
@@ -22,32 +23,47 @@ export default function FeedPost({ post }: { post: Post }) {
       )
     }
 
-    if (post.media.type === "video") {
-      return (
-        <Link href={post.media.url}>
-          <video className="rounded-xl object-contain max-w-full" src={post.media.url} controls />
-        </Link>
-      )
-    }
+    // if (post.media.type === "video") {
+    //   return (
+    //     <Link href={post.media.url}>
+    //       <video className="rounded-xl object-contain max-w-full" src={post.media.url} controls />
+    //     </Link>
+    //   )
+    // }
   }
 
-const postContentInCents: string = post.content;
+// const postContentInCents: string = post.content;
 
-const amountInCents: number = parseInt(postContentInCents, 10);
+// const amountInCents: number = parseInt(postContentInCents, 10);
 
-const amountInDollars: any = amountInCents / 100;
+// const amountInDollars: any = amountInCents / 100;
 
-const checkValidity = (amountInDollars: any) => {
-if (!isNaN(amountInDollars)) {
-  console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
-  return (`$${amountInDollars.toFixed(2)}`)
-}
-else {
-  console.log("Invalid amount");
-  amountInDollars = "Error: could not find total amount";
-  return amountInDollars
-}
-}
+// const checkValidity = (amountInDollars: any) => {
+// if (!isNaN(amountInDollars)) {
+//   console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
+//   return (`$${amountInDollars.toFixed(2)}`)
+// }
+// else {
+//   console.log("Invalid amount");
+//   amountInDollars = "Error: could not find total amount";
+//   return amountInDollars
+// }
+
+// }
+// const processPostContent = (postContent: string): string => {
+//   const amountInCents: number = parseInt(postContent, 10);
+//   let amountInDollars: any = amountInCents / 100;
+
+//   if (!isNaN(amountInDollars)) {
+//     console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
+//     return `$${amountInDollars.toFixed(2)}`;
+//   } else {
+//     console.log("Invalid amount");
+//     amountInDollars = "Error: could not find total amount";
+//     return amountInDollars;
+//   }
+// };
+
   return (
     <article className="flex flex-col gap-4 py-4 relative">
       <div className="flex gap-4 items-start">
@@ -70,7 +86,7 @@ else {
             <p className="dark:text-neutral-400 text-neutral-600">{timeAgoShort(new Date(post.createdAt))}</p>
           </div>
           <Link href={`/post/${post.id}`}>
-            <p className="font-light">{checkValidity(amountInDollars)}</p>
+            <p className="font-light">{formatPostContent(post.content)}</p>
           </Link>
           <PostMedia />
           <PostActions
