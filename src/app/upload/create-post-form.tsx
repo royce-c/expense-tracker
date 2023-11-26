@@ -30,16 +30,30 @@ export default function CreatePostForm({
     return hashHex;
   };
 
+  const MAX_FILE_SIZE_MB = 5;
+  const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png']; 
+  
   const handleFileUpload = async (file: File) => {
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      throw new Error(`File size exceeds the maximum limit of ${MAX_FILE_SIZE_MB} MB`);
+    }
+  
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      throw new Error(`File type not allowed. Allowed types are: ${ALLOWED_FILE_TYPES.join(', ')}`);
+    }
+  
     const signedURLResult = await getSignedURL({
       fileSize: file.size,
       fileType: file.type,
       checksum: await computeSHA256(file),
     });
+  
     if (signedURLResult.failure !== undefined) {
       throw new Error(signedURLResult.failure);
     }
+  
     const { url, id: fileId } = signedURLResult.success;
+    
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -47,11 +61,12 @@ export default function CreatePostForm({
       },
       body: file,
     });
-
+  
     const fileUrl = url.split("?")[0];
     return fileId;
   };
-
+  
+  
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

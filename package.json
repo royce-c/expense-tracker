@@ -20,6 +20,7 @@
     "might-fail": "^0.2.0",
     "next": "latest",
     "next-auth": "beta",
+    "next-safe-action": "^5.1.3",
     "openai": "^4.20.0",
     "react": "^18",
     "react-dom": "^18",
