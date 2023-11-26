@@ -7,7 +7,12 @@ import { singlePostQuery } from "@/db/queries/singlePost"
 import { postResponsesQuery } from "@/db/queries/postsFeed"
 import { mightFail } from "might-fail"
 
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
+
 export default async function Post({ params }: { params: { id: string } }) {
+  const session = await auth()
+
   const id = Number(params.id)
   if (Number.isNaN(id)) {
     notFound()
@@ -16,6 +21,10 @@ export default async function Post({ params }: { params: { id: string } }) {
   const { result: post, error: getPostError } = await mightFail(
     singlePostQuery.execute({ id }).then((result) => result[0])
   )
+  // Only user can see their own posts
+  if (session?.user.id !== post?.user.id) {
+    notFound()
+  }
   if (getPostError) {
     console.error(getPostError)
     return <div>error connecting to database</div>

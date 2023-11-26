@@ -8,7 +8,7 @@ export default function formatPostContent (postContent: any): string {
       return `$${amountInDollars.toFixed(2)}`;
     } else {
       console.log("Invalid amount");
-      amountInDollars = "Error: could not find total amount";
+      amountInDollars = "Error: the AI could not find total amount";
       return amountInDollars;
     }
   };

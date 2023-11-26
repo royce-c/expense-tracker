@@ -32,38 +32,6 @@ export default function FeedPost({ post }: { post: Post }) {
     // }
   }
 
-// const postContentInCents: string = post.content;
-
-// const amountInCents: number = parseInt(postContentInCents, 10);
-
-// const amountInDollars: any = amountInCents / 100;
-
-// const checkValidity = (amountInDollars: any) => {
-// if (!isNaN(amountInDollars)) {
-//   console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
-//   return (`$${amountInDollars.toFixed(2)}`)
-// }
-// else {
-//   console.log("Invalid amount");
-//   amountInDollars = "Error: could not find total amount";
-//   return amountInDollars
-// }
-
-// }
-// const processPostContent = (postContent: string): string => {
-//   const amountInCents: number = parseInt(postContent, 10);
-//   let amountInDollars: any = amountInCents / 100;
-
-//   if (!isNaN(amountInDollars)) {
-//     console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
-//     return `$${amountInDollars.toFixed(2)}`;
-//   } else {
-//     console.log("Invalid amount");
-//     amountInDollars = "Error: could not find total amount";
-//     return amountInDollars;
-//   }
-// };
-
   return (
     <article className="flex flex-col gap-4 py-4 relative">
       <div className="flex gap-4 items-start">

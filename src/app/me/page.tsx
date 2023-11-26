@@ -7,7 +7,6 @@ import { userPostsQuery } from "@/db/queries/postsFeed"
 import Profile from "./profile"
 
 import { auth, signOut } from "@/auth"
-
 import { redirect } from "next/navigation"
 
 import SignoutButton from "./sign-out-button"
