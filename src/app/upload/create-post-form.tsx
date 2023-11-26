@@ -30,7 +30,7 @@ export default function CreatePostForm({
     return hashHex;
   };
 
-  const MAX_FILE_SIZE_MB = 5;
+  const MAX_FILE_SIZE_MB = 3;
   const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png']; 
   
   const handleFileUpload = async (file: File) => {
