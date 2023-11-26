@@ -30,6 +30,30 @@ export default function FeedPost({ post }: { post: Post }) {
       )
     }
   }
+
+  // Assuming post.content is a string representing the amount in cents
+const postContentInCents: string = post.content;
+
+// Step 1: Parse post.content to get the amount in cents
+const amountInCents: number = parseInt(postContentInCents, 10);
+
+// Step 2: Convert cents to dollars
+const amountInDollars: any = amountInCents / 100;
+
+const checkValidity = (amountInDollars: any) => {
+if (!isNaN(amountInDollars)) {
+  console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
+  return (`$${amountInDollars.toFixed(2)}`)
+}
+else {
+  console.log("Invalid amount");
+  amountInDollars = "Error";
+  return amountInDollars
+}
+}
+// Step 3: Display the amount in dollars
+// console.log(`Amount in dollars: $${amountInDollars.toFixed(2)}`);
+
   return (
     <article className="flex flex-col gap-4 py-4 relative">
       <div className="flex gap-4 items-start">
@@ -52,7 +76,7 @@ export default function FeedPost({ post }: { post: Post }) {
             <p className="dark:text-neutral-400 text-neutral-600">{timeAgoShort(new Date(post.createdAt))}</p>
           </div>
           <Link href={`/post/${post.id}`}>
-            <p className="font-light">{post.content}</p>
+            <p className="font-light">{checkValidity(amountInDollars)}</p>
           </Link>
           <PostMedia />
           <PostActions

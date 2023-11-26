@@ -17,7 +17,7 @@ type Message = {
 const initialProgrammerMessages: Message[] = [
   {
     role: "system",
-    content: "You are an expert at reading receipts and invoices then returning the total cost. If the receipt is not readable, return 'Error'."
+    content: "You are an expert at reading receipts and invoices then returning the total cost in cents. If the receipt is not readable, return 'Error'."
   },
   {
     role: "user",
