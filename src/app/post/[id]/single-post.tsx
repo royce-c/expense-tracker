@@ -4,6 +4,7 @@ import { type Post } from "@/db/queries/singlePost"
 import PostActions from "@/components/post-actions"
 
 import timeAgoShort from "@/utils/timeAgoShort"
+import formattedDate from "@/utils/formattedDate"
 import formatPostContent from "@/utils/formatExpense"
 
 export default function SinglePost({ post }: { post: Post }) {
@@ -41,7 +42,7 @@ export default function SinglePost({ post }: { post: Post }) {
             <Link href={`/profile`}>
               <div>{post.user.name}</div>
             </Link>
-            <p className="dark:text-neutral-400 text-neutral-600">{timeAgoShort(new Date(post.createdAt))}</p>
+            <p className="dark:text-neutral-400 text-neutral-600">{formattedDate(new Date(post.createdAt)) +" (Uploaded " + timeAgoShort(new Date(post.createdAt))+" ago)"}</p>
           </div>
         </div>
       </div>
