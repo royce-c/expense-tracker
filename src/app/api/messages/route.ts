@@ -2,6 +2,7 @@ import { type NextRequest } from "next/server";
 
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+import { auth } from "@/auth"
 
 export const runtime = "edge";
 
@@ -33,9 +34,11 @@ type Model =
 export async function POST(req: NextRequest) {
   const { content, chatId } = await req.json();
 
-  // verify the user is logged in
-  // verify the chatId is valid
-  // verify it belongs to the user
+  const session = await auth()
+
+  if (!session) {
+    return { failure: "not authenticated" }
+  }
 
   let messages: Message[] = [
     {
