@@ -80,6 +80,10 @@ export default function CreatePostForm({
     e.preventDefault();
     setLoading(true);
     try {
+      if (!file) {
+        throw new Error("Please upload a file before posting.");
+      }
+      
       let body = "";
       let value = "Return the text content of the image";
       if (file) {
@@ -177,16 +181,6 @@ export default function CreatePostForm({
           <div className="flex flex-col gap-2 w-full">
             <div>{user.name}</div>
 
-            {/* <label className="w-full">
-              <input
-                className="bg-transparent flex-1 border-none outline-none"
-                type="text"
-                placeholder="Post a thing..."
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </label> */}
-
             {previewUrl && file && (
               <div className="mt-4">
                 {file.type.startsWith("image/") ? (
@@ -233,7 +227,7 @@ export default function CreatePostForm({
             disabled={buttonDisabled}
             aria-disabled={buttonDisabled}
           >
-            Post
+            Upload
           </button>
         </div>
       </form>
