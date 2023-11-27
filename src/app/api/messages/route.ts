@@ -3,6 +3,7 @@ import { type NextRequest } from "next/server";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { auth } from "@/auth"
+import { receiptTotalMessage } from "@/lib/messages";
 
 export const runtime = "edge";
 
@@ -10,17 +11,6 @@ type Message = {
   role: "system" | "user" | "assistant";
   content: any;
 };
-
-const initialProgrammerMessages: Message[] = [
-  {
-    role: "system",
-    content: "You are an expert at reading receipts and invoices then returning the total cost in cents. If the receipt is not readable, return 'Error'."
-  },
-  {
-    role: "user",
-    content: "Please read the receipt and return the total cost. Only return the total cost, no other text.",
-  },
-];
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -32,7 +22,7 @@ type Model =
   | "gpt-3.5-turbo-1106";
 
 export async function POST(req: NextRequest) {
-  const { content, chatId } = await req.json();
+  const { content } = await req.json();
 
   const session = await auth()
 
@@ -51,7 +41,7 @@ export async function POST(req: NextRequest) {
     // model: "gpt-4-1106-preview",
     model: "gpt-4-vision-preview",
     stream: true,
-    messages: [...initialProgrammerMessages, ...messages],
+    messages: [...receiptTotalMessage, ...messages],
     max_tokens: 4096,
   };
 
