@@ -12,7 +12,7 @@ import { redirect } from "next/navigation"
 export default async function Create() {
   const session = await auth()
   if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/create")
+    redirect("/api/auth/signin?callbackUrl=/upload")
   }
 
   return <CreatePostForm user={session.user} />

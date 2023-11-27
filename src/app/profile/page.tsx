@@ -15,7 +15,7 @@ export default async function ProfilePage() {
   const session = await auth()
 
   if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/me")
+    redirect("/api/auth/signin?callbackUrl=/profile")
   }
 
   const posts = await userPostsQuery.execute({ userId: session.user.id })

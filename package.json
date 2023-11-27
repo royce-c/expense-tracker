@@ -15,6 +15,7 @@
     "@aws-sdk/s3-request-presigner": "^3.445.0",
     "@neondatabase/serverless": "^0.6.0",
     "ai": "^2.2.25",
+    "dotenv": "^16.3.1",
     "drizzle-kit": "^0.20.4",
     "drizzle-orm": "^0.29.0",
     "might-fail": "^0.2.0",
