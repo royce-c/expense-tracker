@@ -42,16 +42,3 @@ export async function deletePost(postId: number) {
     console.error(e)
   }
 }
-
-export async function sharePost(postId: number) {
-  console.log("share")
-}
-export async function repostPost(postId: number) {
-  console.log("repost")
-}
-export async function commentPost(postId: number) {
-  console.log("comment")
-}
-export async function likePost(postId: number) {
-  console.log("like")
-}

@@ -7,7 +7,7 @@ import timeAgoShort from "@/utils/timeAgoShort"
 import formattedDate from "@/utils/formattedDate"
 import formatPostContent from "@/utils/formatExpense"
 
-import { likePost, commentPost, repostPost, sharePost, deletePost } from "./actions"
+import { deletePost } from "./actions"
 
 export default function FeedPost({ post }: { post: Post }) {
   function PostMedia() {

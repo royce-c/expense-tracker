@@ -1,8 +1,5 @@
 import CreatePostForm from "@/app/upload/create-post-form"
 
-import { db, eq } from "@/db"
-import { users as usersTable } from "@/db/schema/users"
-
 import { auth } from "@/auth"
 
 import { redirect } from "next/navigation"

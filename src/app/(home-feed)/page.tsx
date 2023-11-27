@@ -1,6 +1,5 @@
 import FeedPost from "@/app/(home-feed)/feed-post"
 
-import { postsFeedQuery } from "@/db/queries/postsFeed"
 import { auth, signOut } from "@/auth"
 import { userPostsQuery } from "@/db/queries/postsFeed"
 

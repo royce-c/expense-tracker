@@ -3,10 +3,6 @@ import { type NextRequest } from "next/server";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
-import { revalidatePath } from "next/cache";
-import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
-
 export const runtime = "edge";
 
 type Message = {

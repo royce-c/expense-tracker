@@ -1,7 +1,4 @@
 import FeedPost from "@/app/(home-feed)/feed-post"
-
-import { users as usersTable } from "@/db/schema/users"
-import { db, eq, sql } from "@/db"
 import { userPostsQuery } from "@/db/queries/postsFeed"
 
 import Profile from "./profile"
