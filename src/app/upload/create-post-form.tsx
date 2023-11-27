@@ -83,7 +83,7 @@ export default function CreatePostForm({
       if (!file) {
         throw new Error("Please upload a file before posting.");
       }
-      
+
       let body = "";
       let value = "Return the text content of the image";
       if (file) {
@@ -106,6 +106,12 @@ export default function CreatePostForm({
         body = JSON.stringify({ content: value });
       }
 
+      let fileId: number | undefined = undefined;
+      if (file) {
+        setStatusMessage("Uploading...");
+        fileId = await handleFileUpload(file);
+      }
+      
       const res = await fetch("/api/messages", {
         method: "POST",
         body: body,
@@ -116,13 +122,6 @@ export default function CreatePostForm({
       if (!res.ok || res.body === null) {
         throw new Error(res.statusText);
       }
-
-      let fileId: number | undefined = undefined;
-      if (file) {
-        setStatusMessage("Uploading...");
-        fileId = await handleFileUpload(file);
-      }
-
       setStatusMessage("Posting post...");
 
       content = content + completionResult;
@@ -135,7 +134,7 @@ export default function CreatePostForm({
       setStatusMessage("Post Successful");
     } catch (error) {
       console.error(error);
-      setStatusMessage("Post failed");
+      setStatusMessage(`Post failed ${error}`);
     } finally {
       setLoading(false);
     }
