@@ -20,14 +20,6 @@ export default function SinglePost({ post }: { post: Post }) {
         </Link>
       )
     }
-
-    // if (post.media.type === "video") {
-    //   return (
-    //     <Link href={post.media.url}>
-    //       <video className="object-contain max-w-full" src={post.media.url} controls />
-    //     </Link>
-    //   )
-    // }
   }
 
   return (
@@ -58,22 +50,6 @@ export default function SinglePost({ post }: { post: Post }) {
         <p className="font-light">{formatPostContent(post.content)}</p>
         <PostMedia />
         <PostActions
-          onLike={async () => {
-            "use server"
-            console.log("like")
-          }}
-          onComment={async () => {
-            "use server"
-            console.log("comment")
-          }}
-          onRepost={async () => {
-            "use server"
-            console.log("repost")
-          }}
-          onShare={async () => {
-            "use server"
-            console.log("share")
-          }}
           onDelete={async () => {
             "use server"
             console.log("delete")

@@ -22,14 +22,6 @@ export default function FeedPost({ post }: { post: Post }) {
         </Link>
       )
     }
-
-    // if (post.media.type === "video") {
-    //   return (
-    //     <Link href={post.media.url}>
-    //       <video className="rounded-xl object-contain max-w-full" src={post.media.url} controls />
-    //     </Link>
-    //   )
-    // }
   }
 
   return (
@@ -58,10 +50,6 @@ export default function FeedPost({ post }: { post: Post }) {
           </Link>
           <PostMedia />
           <PostActions
-            onLike={likePost.bind(null, post.id)}
-            onComment={commentPost.bind(null, post.id)}
-            onRepost={repostPost.bind(null, post.id)}
-            onShare={sharePost.bind(null, post.id)}
             onDelete={deletePost.bind(null, post.id)}
           />
         </div>
