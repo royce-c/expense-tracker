@@ -1,13 +1,12 @@
 import FeedPost from "@/app/(home-feed)/feed-post"
 
-import { auth, signOut } from "@/auth"
+import { auth } from "@/auth"
 import { userPostsQuery } from "@/db/queries/postsFeed"
 
 
 import { redirect } from "next/navigation"
 
 export default async function Home() {
-  // const posts = await postsFeedQuery.execute()
 
   const session = await auth()
   if (!session?.user) {
