@@ -6,12 +6,15 @@ import { twMerge } from "tailwind-merge";
 
 import { createPost, getSignedURL } from "./actions";
 
+import { Suspense } from "react";
+import Loading from "@/components/loading";
+
 export default function CreatePostForm({
   user,
 }: {
   user: { name?: string | null; image?: string | null };
 }) {
-  let [content, setContent] = useState("");
+  let [content] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -31,29 +34,35 @@ export default function CreatePostForm({
   };
 
   const MAX_FILE_SIZE_MB = 3;
-  const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png']; 
-  
+  const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png"];
+
   const handleFileUpload = async (file: File) => {
     if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-      throw new Error(`File size exceeds the maximum limit of ${MAX_FILE_SIZE_MB} MB`);
+      throw new Error(
+        `File size exceeds the maximum limit of ${MAX_FILE_SIZE_MB} MB`
+      );
     }
-  
+
     if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-      throw new Error(`File type not allowed. Allowed types are: ${ALLOWED_FILE_TYPES.join(', ')}`);
+      throw new Error(
+        `File type not allowed. Allowed types are: ${ALLOWED_FILE_TYPES.join(
+          ", "
+        )}`
+      );
     }
-  
+
     const signedURLResult = await getSignedURL({
       fileSize: file.size,
       fileType: file.type,
       checksum: await computeSHA256(file),
     });
-  
+
     if (signedURLResult.failure !== undefined) {
       throw new Error(signedURLResult.failure);
     }
-  
+
     const { url, id: fileId } = signedURLResult.success;
-    
+
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -61,12 +70,10 @@ export default function CreatePostForm({
       },
       body: file,
     });
-  
-    const fileUrl = url.split("?")[0];
+
     return fileId;
   };
-  
-  
+
   const convertFileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -111,7 +118,7 @@ export default function CreatePostForm({
         setStatusMessage("Uploading...");
         fileId = await handleFileUpload(file);
       }
-      
+
       const res = await fetch("/api/messages", {
         method: "POST",
         body: body,
@@ -155,7 +162,7 @@ export default function CreatePostForm({
   };
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <form
         className="border border-neutral-500 rounded-lg px-6 py-4"
         onSubmit={handleSubmit}
@@ -216,7 +223,10 @@ export default function CreatePostForm({
         </div>
 
         <div className="flex justify-between items-center mt-5">
-          <div className="text-neutral-500">Upload image of receipt above. Make sure the photo is clear and the total amount is in frame.</div>
+          <div className="text-neutral-500">
+            Upload image of receipt above. Make sure the photo is clear and the
+            total amount is in frame.
+          </div>
           <button
             type="submit"
             className={twMerge(
@@ -230,6 +240,6 @@ export default function CreatePostForm({
           </button>
         </div>
       </form>
-    </>
+    </Suspense>
   );
 }
