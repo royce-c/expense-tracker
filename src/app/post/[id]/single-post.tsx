@@ -1,25 +1,29 @@
-import Image from "next/image"
-import Link from "next/link"
-import { type Post } from "@/db/queries/singlePost"
-import PostActions from "@/components/post-actions"
+import Image from "next/image";
+import Link from "next/link";
+import { type Post } from "@/db/queries/singlePost";
 
-import timeAgoShort from "@/utils/timeAgoShort"
-import formattedDate from "@/utils/formattedDate"
-import formatPostContent from "@/utils/formatExpense"
+import timeAgoShort from "@/utils/timeAgoShort";
+import formattedDate from "@/utils/formattedDate";
+import formatPostContent from "@/utils/formatExpense";
 
 export default function SinglePost({ post }: { post: Post }) {
   function PostMedia() {
     if (!post.media) {
-      return null
+      return null;
     }
     if (post.media.type === "image") {
       return (
         <Link href={post.media.url}>
           <div className="rounded-xl w-fill aspect-square relative overflow-hidden">
-            <Image className="object-cover" src={post.media.url} alt={post.content} fill={true} />
+            <Image
+              className="object-cover"
+              src={post.media.url}
+              alt={post.content}
+              fill={true}
+            />
           </div>
         </Link>
-      )
+      );
     }
   }
 
@@ -42,7 +46,12 @@ export default function SinglePost({ post }: { post: Post }) {
             <Link href={`/profile`}>
               <div>{post.user.name}</div>
             </Link>
-            <p className="dark:text-neutral-400 text-neutral-600">{formattedDate(new Date(post.createdAt)) +" (Uploaded " + timeAgoShort(new Date(post.createdAt))+" ago)"}</p>
+            <p className="dark:text-neutral-400 text-neutral-600">
+              {formattedDate(new Date(post.createdAt)) +
+                " (Uploaded " +
+                timeAgoShort(new Date(post.createdAt)) +
+                " ago)"}
+            </p>
           </div>
         </div>
       </div>
@@ -50,13 +59,7 @@ export default function SinglePost({ post }: { post: Post }) {
       <div className="flex flex-col gap-2 pb-2">
         <p className="font-light">{formatPostContent(post.content)}</p>
         <PostMedia />
-        <PostActions
-          onDelete={async () => {
-            "use server"
-            console.log("delete")
-          }}
-        />
       </div>
     </article>
-  )
+  );
 }
