@@ -1,16 +1,24 @@
-import CreatePostForm from "@/app/upload/create-post-form"
+import CreatePostForm from "@/app/upload/create-post-form";
 
-import { auth } from "@/auth"
+import { Suspense } from "react";
 
-import { redirect } from "next/navigation"
+import { auth } from "@/auth";
+
+import Loading from "@/components/loading";
+
+import { redirect } from "next/navigation";
 
 // export const runtime = 'edge'
 
 export default async function Create() {
-  const session = await auth()
+  const session = await auth();
   if (!session?.user) {
-    redirect("/api/auth/signin?callbackUrl=/upload")
+    redirect("/api/auth/signin?callbackUrl=/upload");
   }
 
-  return <CreatePostForm user={session.user} />
+  return (
+    <Suspense fallback={<Loading />}>
+      <CreatePostForm user={session.user} />
+    </Suspense>
+  );
 }

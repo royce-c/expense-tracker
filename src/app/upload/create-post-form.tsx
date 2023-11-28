@@ -208,7 +208,7 @@ export default function CreatePostForm({
                 className="bg-transparent flex-1 border-none outline-none hidden"
                 name="media"
                 type="file"
-                accept="image/jpeg,image/png,video/mp4,video/quicktime"
+                accept="image/jpeg,image/png"
                 onChange={handleFileChange}
               />
             </label>

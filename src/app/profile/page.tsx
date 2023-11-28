@@ -8,6 +8,9 @@ import { redirect } from "next/navigation"
 
 import SignoutButton from "./sign-out-button"
 
+import { Suspense } from "react"
+import Loading from "@/components/loading"
+
 export default async function ProfilePage() {
   const session = await auth()
 
@@ -18,7 +21,7 @@ export default async function ProfilePage() {
   const posts = await userPostsQuery.execute({ userId: session.user.id })
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <Profile user={session.user} />
 
         <SignoutButton
@@ -37,6 +40,6 @@ export default async function ProfilePage() {
           ))}
         </div>
       </div>
-    </>
+    </Suspense>
   )
 }

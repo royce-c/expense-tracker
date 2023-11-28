@@ -7,6 +7,9 @@ import { singlePostQuery } from "@/db/queries/singlePost"
 import { postResponsesQuery } from "@/db/queries/postsFeed"
 import { mightFail } from "might-fail"
 
+import { Suspense } from "react"
+import Loading from "@/components/loading"
+
 import { auth } from "@/auth"
 
 export default async function Post({ params }: { params: { id: string } }) {
@@ -45,11 +48,13 @@ export default async function Post({ params }: { params: { id: string } }) {
   }
 
   return (
+    <Suspense fallback={<Loading />}>
     <div className="flex flex-col divide-y">
       <SinglePost post={post} />
       {postResponses.map((post) => (
         <FeedPost key={post.id} post={post} />
       ))}
     </div>
+    </Suspense>
   )
 }
