@@ -12,7 +12,6 @@ export const authConfig = {
       return session
     },
     authorized({ auth, request: { nextUrl } }) {
-      return true
       const isLoggedIn = !!auth?.user
       const paths = ["/profile", "/upload"]
       const isProtected = paths.some((path) => nextUrl.pathname.startsWith(path))
