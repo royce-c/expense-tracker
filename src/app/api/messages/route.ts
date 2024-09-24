@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   ];
 
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
-    model: "gpt-4-vision-preview",
+    model: "gpt-4o",
     stream: true,
     messages: [...receiptTotalMessage, ...messages],
     max_tokens: 4096,
