@@ -20,10 +20,7 @@ Authentication: GitHub OAuth
 
 ## Installation
 
-Prerequisites
-Node.js
-MySQL
-Amazon S3 Account
+Prerequisites: Node.js, PostgreSQL, Amazon S3 Account
 
 ### Steps
 
