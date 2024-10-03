@@ -63,6 +63,12 @@ AWS_BUCKET_REGION=
 OPENAI_API_KEY=
 ```
 
+Push schema to the database:
+
+```bash
+npx drizzle-kit push
+```
+
 Run the application:
 
 ```bash
