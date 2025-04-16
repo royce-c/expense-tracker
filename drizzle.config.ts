@@ -8,9 +8,9 @@ dotenv.config({
 
 export default defineConfig({
   schema: "./src/db/schema/*",
-  driver: "pg",
+  dialect: "postgresql",
   dbCredentials: {
-    connectionString: process.env.MIGRATION_DATABASE_URL!,
+    url: process.env.MIGRATION_DATABASE_URL!,
   },
   out: "./drizzle",
 })

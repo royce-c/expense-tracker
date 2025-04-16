@@ -1,8 +1,7 @@
-import { type NextRequest } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { auth } from "@/auth"
+import { auth } from "@/auth";
 import { receiptTotalMessage } from "@/lib/messages";
 
 export const runtime = "edge";
@@ -24,10 +23,15 @@ type Model =
 export async function POST(req: NextRequest) {
   const { content } = await req.json();
 
-  const session = await auth()
+  const session = await auth();
 
   if (!session) {
-    return { failure: "not authenticated" }
+    return new Response(JSON.stringify({ failure: "not authenticated" }), {
+      status: 401,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 
   let messages: Message[] = [
@@ -38,8 +42,7 @@ export async function POST(req: NextRequest) {
   ];
 
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
-    // model: "gpt-4-1106-preview",
-    model: "gpt-4-vision-preview",
+    model: "gpt-4o",
     stream: true,
     messages: [...receiptTotalMessage, ...messages],
     max_tokens: 4096,
