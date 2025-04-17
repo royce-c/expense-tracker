@@ -225,8 +225,7 @@ export default function CreatePostForm({
               </div>
               {!file && (
                 <span className="text-sm text-neutral-500 text-center">
-                  Make sure the photo is clear and the total amount is in frame.
-                  Upload a clear photo of your receipt.
+                  Ensure your receipt photo is well-lit and the total amount is clearly visible. JPG or PNG formats only.
                 </span>
               )}
               {file && (
